@@ -33,16 +33,19 @@ def lastfm(willie, trigger):
     trackinfo_page = web.get("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&artist=%s&track=%s&username=%s&api_key=1d234424fd93e18d503758bf2714859e&format=json" % (quoted_artist, quoted_track, quoted_user))
     #track playcount and loved stats
     trackinfo = json.loads(trackinfo_page)['track']
-    playcount = trackinfo['userplaycount']
+    try:
+        playcount = trackinfo['userplaycount']
+    except KeyError:
+        playcount = "unknown"
     loved = int(trackinfo['userloved'])
     
     try:
         if loved > 0:
-            willie.reply('\x035' + u'\u2665' +'\x03 %s - %s - %s - (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
+            willie.say('\x035' + u'\u2665' +'\x03 %s - %s - %s - (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
         else:
-            willie.reply(u'\u266A' + ' %s - %s - %s (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
+            willie.say(u'\u266A' + ' %s - %s - %s (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
     except KeyError:
-        willie.reply("Couldn't find any recent tracks")
+        willie.say("Couldn't find any recent tracks")
 
 @commands('fmset')
 @example('.fmset daftpunk69')
