@@ -2,6 +2,7 @@
 lastfm.py - last.fm checker for willie bot
 """
 from willie import web
+from willie.config import Config
 from willie.module import commands, example
 import json
 import re
@@ -14,7 +15,7 @@ def setup(bot):
 @commands('fm','last','lastfm')
 def lastfm(willie, trigger):
     user = trigger.group(2)
-
+    apikey = str(willie.config.lastfm.apikey)
     if not (user and user != ''):
         if trigger.nick in willie.db.preferences:
             user = willie.db.preferences.get(trigger.nick, 'lastfm_user')
@@ -24,13 +25,13 @@ def lastfm(willie, trigger):
     #username variable prepared for insertion into REST string
     quoted_user = web.quote(user)
     #json formatted output for recent track
-    recent_page = web.get("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&api_key=1d234424fd93e18d503758bf2714859e&format=json" % (quoted_user))
+    recent_page = web.get("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&api_key=%s&format=json" % (quoted_user, apikey))
     recent_track = json.loads(recent_page)['recenttracks']['track'][0]
     #artist and track name pulled from recent_track
     quoted_artist = web.quote(recent_track['artist']['#text'])
     quoted_track = web.quote(recent_track['name'])
     #json formatted track info
-    trackinfo_page = web.get("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&artist=%s&track=%s&username=%s&api_key=1d234424fd93e18d503758bf2714859e&format=json" % (quoted_artist, quoted_track, quoted_user))
+    trackinfo_page = web.get("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&artist=%s&track=%s&username=%s&api_key=%s&format=json" % (quoted_artist, quoted_track, quoted_user, apikey))
     #track playcount and loved stats
     trackinfo = json.loads(trackinfo_page)['track']
     try:
