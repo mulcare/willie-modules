@@ -23,7 +23,7 @@ def google_search(query):
     url = result['responseData']['results'][0]['url']
     size = height + 'x' + width
     try:
-	 return url + ' \x035[' + size + ']\x03'
+     return url + ' \x035[' + size + ']\x03'
     except IndexError:
         return None
     except TypeError:
