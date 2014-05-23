@@ -42,9 +42,9 @@ def lastfm(willie, trigger):
     
     try:
         if loved > 0:
-            willie.say('\x035' + u'\u2665' +'\x03 %s - %s - %s - (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
+            willie.say('\x035' + u'\u2665' +'\x03 %s - %s - (%s plays)' % (recent_track['artist']['#text'], recent_track['name'], playcount))
         else:
-            willie.say(u'\u266A' + ' %s - %s - %s (%s plays)' % (recent_track['artist']['#text'], recent_track['album']['#text'], recent_track['name'], playcount))
+            willie.say(u'\u266A' + ' %s - %s (%s plays)' % (recent_track['artist']['#text'], recent_track['name'], playcount))
     except KeyError:
         willie.say("Couldn't find any recent tracks")
 
