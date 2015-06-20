@@ -1,7 +1,6 @@
 """
 gis.py - Google Image Search Willie module
 Ross Mulcare - rossmulcare.net
-Unlicensed - Use, modify, sell; I don't care.
 -
 Modified version of search.py 
 by Sean B. Palmer / Edward Powell
